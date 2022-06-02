@@ -21,10 +21,14 @@ export default function Home() {
         <h1 className={styles.title}>
           Next Pdf to Text
         </h1>
-
+        
         <p className={styles.description}>
-          This is the text of {pdfUrl}.
+          We often need to show the text of a pdf inside a web page.  This NextJs utility will convert the pdf and if the pdf is searchable, it will render the text below.  The example below shows a sample pdf.
         </p>
+        <p className={styles.link}>
+          <a href={pdfUrl} target="_blank">Click to open the pdf</a>
+        </p>
+
         <ConvertPdf src={pdfUrl} />
       </main>
 
