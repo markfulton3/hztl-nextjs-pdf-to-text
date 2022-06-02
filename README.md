@@ -1,5 +1,5 @@
 # NextJS PDF to Text 
-Have you ever wanted to convert a pdf to text to be used on the web?  This is a quick little utility using react-pdf to convert to a page. 
+Have you ever wanted to convert a pdf to text to be used on the web?  This is a quick little utility using react-pdf to convert a pdf file to a page. 
 
 ## To run this from your local:
 
