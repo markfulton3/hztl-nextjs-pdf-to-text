@@ -2,43 +2,12 @@ import React, { useState } from 'react';
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { Document, Page } from 'react-pdf';
-import { pdfjs } from 'react-pdf';
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
+import ConvertPdf from './_convertPdf';
 
 
 export default function Home() {
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  const onDocumentLoadSuccess = ({numPages}) => {
-    setNumPages(numPages);
-  }
   
-
-  const getText = (pdfPath) => {
-  
-
-    return (
-      <Document 
-        file={pdfPath}
-        onLoadSuccess={onDocumentLoadSuccess}
-        >
-          { Array.from(
-            new Array(numPages),
-            (el, index) => (
-              <Page
-                key={`page_${index + 1}`}
-                pageNumber={index + 1}
-              />
-            )
-          )}
-      </Document>
-    )
-  }
-
-  const pdfUrl = '/pdfs/medicare-supplement-app.pdf';
-  const pdfText = getText(pdfUrl);
+  const pdfUrl = "/pdfs/medicare-supplement-app.pdf";
 
   return (
     <div className={styles.container}>
@@ -56,7 +25,7 @@ export default function Home() {
         <p className={styles.description}>
           This is the text of {pdfUrl}.
         </p>
-        {pdfText}
+        <ConvertPdf src={pdfUrl} />
       </main>
 
       <footer className={styles.footer}>
