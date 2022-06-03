@@ -19,13 +19,20 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Next Pdf to Text
+          NextJs Pdf to Text
         </h1>
         
         <p className={styles.description}>
           We often need to show the text of a pdf inline within a web page.  This NextJs utility will convert a searchable pdf to html.
           This <a className={styles.link} href={pdfUrl} target="_blank" rel="noreferrer">searchable pdf</a> is rendered below.
         </p>
+
+        <h2>Resources</h2>
+        <ul>
+            <li><a className={styles.link} href="https://www.npmjs.com/package/react-pdf" target="_blank" rel="noreferrer">react-pdf package</a></li>
+            <li><a className={styles.link} href="https://mozilla.github.io/pdf.js/" target="_blank" rel="noreferrer">pdfjs</a></li>
+            <li><a className={styles.link} href="https://github.com/markfulton3/hztl-nextjs-pdf-to-text" target="_blank" rel="noreferrer">Github</a></li>
+        </ul>
 
         <ConvertPdf src={pdfUrl} />
       </main>
