@@ -30,7 +30,7 @@ const ConvertPdf = ({ src }) => {
         setPdfText(txt);
       }
       loadPdf();
-  }, [])
+  }, [src])
   
   
   return (
