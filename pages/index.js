@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import ConvertPdf from './_convertPdf';
-
-
+import HTMLReactParser from 'html-react-parser';
 
 export default function Home() {
-  const [file, setFile] = useState()
-  const [binary, setBinary] = useState()
+  const [file, setFile] = useState();
+  const [convertedText, setConvertedText] = useState();
   
   const pdfUrl = "/pdfs/medicare-supplement-app.pdf";
 
@@ -16,6 +15,17 @@ export default function Home() {
     const file = e.target.files[0];
     console.log(file.type);
     setFile(file);
+  }
+
+  const convertToText = (e) => {
+    const el = document.getElementsByClassName("react-pdf__Document")[0];
+   
+    const txt = el.innerHTML.replace(/<[^>]+>/g, '');
+
+    const container = document.getElementsByClassName("pdfConvertedText")[0];
+ 
+    container.val = txt;
+    setConvertedText(txt);
   }
 
   return (
@@ -39,6 +49,7 @@ export default function Home() {
         <h2>Try your own file:</h2>
         <p>
           <input type="file" id="pdfFile" onChange={checkPdf}></input>
+          <button className="button" onClick={convertToText}>Convert to Text</button>
         </p>
 
         <h2>Resources</h2>
@@ -47,8 +58,11 @@ export default function Home() {
             <li><a className={styles.link} href="https://mozilla.github.io/pdf.js/" target="_blank" rel="noreferrer">pdfjs</a></li>
             <li><a className={styles.link} href="https://github.com/markfulton3/hztl-nextjs-pdf-to-text" target="_blank" rel="noreferrer">Github</a></li>
         </ul>
-
+        
         <ConvertPdf src={file} />
+
+        <h2>Removing html into raw text:</h2>
+        <div className="pdfConvertedText">{convertedText}</div>
       </main>
 
       <footer className={styles.footer}>
