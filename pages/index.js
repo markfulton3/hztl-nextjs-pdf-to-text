@@ -5,9 +5,18 @@ import styles from '../styles/Home.module.css'
 import ConvertPdf from './_convertPdf';
 
 
+
 export default function Home() {
+  const [file, setFile] = useState()
+  const [binary, setBinary] = useState()
   
   const pdfUrl = "/pdfs/medicare-supplement-app.pdf";
+
+  const checkPdf = (e) => {
+    const file = e.target.files[0];
+    console.log(file.type);
+    setFile(file);
+  }
 
   return (
     <div className={styles.container}>
@@ -27,6 +36,11 @@ export default function Home() {
           This <a className={styles.link} href={pdfUrl} target="_blank" rel="noreferrer">searchable pdf</a> is rendered below.
         </p>
 
+        <h2>Try your own file:</h2>
+        <p>
+          <input type="file" id="pdfFile" onChange={checkPdf}></input>
+        </p>
+
         <h2>Resources</h2>
         <ul>
             <li><a className={styles.link} href="https://www.npmjs.com/package/react-pdf" target="_blank" rel="noreferrer">react-pdf package</a></li>
@@ -34,7 +48,7 @@ export default function Home() {
             <li><a className={styles.link} href="https://github.com/markfulton3/hztl-nextjs-pdf-to-text" target="_blank" rel="noreferrer">Github</a></li>
         </ul>
 
-        <ConvertPdf src={pdfUrl} />
+        <ConvertPdf src={file} />
       </main>
 
       <footer className={styles.footer}>
