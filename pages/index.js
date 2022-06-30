@@ -3,7 +3,33 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import ConvertPdf from './_convertPdf';
-import HTMLReactParser from 'html-react-parser';
+import fetchit from '../lib/fetchit';
+import sanityClient from '../lib/client';
+
+const postDoc = (txt) => {
+
+  const text = "This is a sample document"
+
+  if (txt != "") {
+
+    const doc = {
+      _type: "post",
+      title: "Converted pdf",
+      body: text
+    };
+  
+    console.log("Posting to sanity");
+  
+    const address = "http://localhost:3000/api/post";
+    
+    const result = fetchit(address, doc);
+    console.log(result);
+  }
+}
+
+
+
+
 
 export default function Home() {
   const [file, setFile] = useState();
@@ -17,16 +43,46 @@ export default function Home() {
     setFile(file);
   }
 
-  const convertToText = (e) => {
-    const el = document.getElementsByClassName("react-pdf__Document")[0];
-   
-    const txt = el.innerHTML.replace(/<[^>]+>/g, '');
+  const postPdf = async (e) => {
+    const text = "This is a sample document"
 
-    const container = document.getElementsByClassName("pdfConvertedText")[0];
- 
-    container.val = txt;
-    setConvertedText(txt);
+    if (!file) {
+      return null;
+    }
+
+    const el = document.getElementsByClassName("react-pdf__Document")[0];
+    const txt = el.innerHTML.replace(/<[^>]+>/g, '');
+  
+    if (txt != "") {
+  
+      const doc = {
+        _type: "post",
+        title: "Converted pdf",
+        body: text
+      };
+    
+      console.log("Posting to sanity");
+    
+      const res = await sanityClient.create(doc);
+
+      console.log(res);
+    }
   }
+
+  // const convertToText = (e) => {
+  //   if (file && typeof window !== 'undefined') {
+  //     console.log("Converting to text");
+  
+  //     const el = document.getElementsByClassName("react-pdf__Document")[0];
+    
+  //     const txt = el.innerHTML.replace(/<[^>]+>/g, '');
+  
+  //     const container = document.getElementsByClassName("pdfConvertedText")[0];
+  
+  //     container.val = txt;
+  //     setConvertedText(txt);
+  //   }
+  // }
 
   return (
     <div className={styles.container}>
@@ -48,8 +104,11 @@ export default function Home() {
 
         <h2>Try your own file:</h2>
         <p>
-          <input type="file" id="pdfFile" onChange={checkPdf}></input>
-          <button className="button" onClick={convertToText}>Convert to Text</button>
+              <label>
+                File:
+                <input type="file" id="pdfFile" onChange={checkPdf}></input>
+              </label>
+              <button onClick={postPdf}>Create Post</button>
         </p>
 
         <h2>Resources</h2>
